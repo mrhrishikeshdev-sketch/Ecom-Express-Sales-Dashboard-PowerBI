@@ -2,29 +2,49 @@
 
 ![Dashboard Preview](Images/Dashboard.png)
 
-## 📌 Overview
-
-The **Ecom Express Sales Dashboard** is an interactive Business Intelligence project developed using **Microsoft Power BI**. It helps analyze sales performance, customer purchasing behavior, product performance, regional sales, and order cancellations through interactive dashboards and KPIs.
-
----
-
-## 🎯 Project Objectives
-
-- Analyze overall sales performance
-- Monitor Revenue and Total Orders
-- Track Average Order Value (AOV)
-- Measure Cancellation Rate
-- Identify Lost Revenue due to cancelled orders
-- Compare State-wise Revenue
-- Analyze Product-wise Revenue
-- Study Monthly Revenue Trends
+![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?logo=powerbi&logoColor=black)
+![DAX](https://img.shields.io/badge/DAX-02569B?style=flat)
+![Power Query](https://img.shields.io/badge/Power%20Query-217346?style=flat)
+![SQL](https://img.shields.io/badge/SQL-4479A1?logo=mysql&logoColor=white)
+![CSV](https://img.shields.io/badge/Dataset-CSV-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
-# 📈 Key Performance Indicators
+# 📌 Project Overview
+
+The **Ecom Express Sales Dashboard** is an interactive Business Intelligence dashboard developed using **Microsoft Power BI**.
+
+The dashboard provides actionable insights into:
+
+- Revenue Performance
+- Product Performance
+- Customer Orders
+- State-wise Sales
+- Cancellation Analysis
+- Revenue Trends
+
+using interactive visuals, DAX measures, KPIs, and slicers.
+
+---
+
+# 🎯 Project Objectives
+
+- Analyze overall sales performance.
+- Monitor Revenue and Total Orders.
+- Track Average Order Value.
+- Measure Cancellation Rate.
+- Identify Lost Revenue due to cancelled orders.
+- Compare Revenue across States.
+- Analyze Product-wise Revenue.
+- Monitor Monthly Revenue Trend.
+
+---
+
+# 📈 Key Performance Indicators (KPIs)
 
 | KPI | Value |
-|------|-------|
+|------|------:|
 | 💰 Revenue | ₹1.25 Billion |
 | 📦 Total Orders | 15.69K |
 | 💳 Average Order Value | ₹112.85K |
@@ -33,43 +53,53 @@ The **Ecom Express Sales Dashboard** is an interactive Business Intelligence pro
 
 ---
 
+# 🖼 Dashboard Preview
+
+## Main Dashboard
+
+![Dashboard](Images/Dashboard.png)
+
+---
+
+## Dashboard UI
+
+![Dashboard UI](Images/Dashboard_Main.png)
+
+---
+
+## Data Model
+
+![Model View](Images/Model_View.png)
+
+---
+
+## Customer Table
+
+![Customer Table](Images/Customer_Table.png)
+
+---
+
 # 📊 Dashboard Features
 
-- Revenue KPI Card
+- Revenue KPI
 - Average Order Value
 - Total Orders
 - Cancellation Rate
-- Lost Revenue Analysis
+- Lost Revenue
 - Revenue by Product Name
-- Revenue by Category
+- Revenue by Product Category
 - Revenue by State
 - Monthly Revenue Trend
-- Product Category Slicer
+- Product Category Filter
 - Purchase Date Filter
 
 ---
 
-# 🏗 Data Model
+# 📂 Dataset Information
 
-The dashboard follows a **Star Schema**.
+This project uses **three datasets**.
 
-```
-Customer (1)
-        |
-        |
-Orders (*)
-        |
-        |
-Product (1)
-```
-
----
-
-# 📂 Dataset
-
-The project contains three datasets.
-
-### Customer
+## Customer
 
 - CustomerID
 - Full Name
@@ -79,7 +109,9 @@ The project contains three datasets.
 - Phone Brand
 - Operating System
 
-### Orders
+---
+
+## Orders
 
 - OrderID
 - CustomerID
@@ -89,7 +121,9 @@ The project contains three datasets.
 - Delivery Time
 - Delivery Status
 
-### Product
+---
+
+## Product
 
 - ProductID
 - Product Name
@@ -99,20 +133,85 @@ The project contains three datasets.
 
 ---
 
-# 📷 Dashboard Preview
+# 🏗 Data Model
 
-![Dashboard](Images/Dashboard.png)
+The dashboard follows a **Star Schema**.
+
+```text
+             Customer
+                 |
+                 |
+                 |
+Orders ---------------- Product
+```
+
+Relationship Type
+
+- Customer → Orders (1 : Many)
+- Product → Orders (1 : Many)
+
+---
+
+# 🧮 DAX Measures
+
+### Revenue
+
+```DAX
+Revenue =
+SUMX(
+    Orders,
+    Orders[Quantity] * RELATED(Product[Price])
+)
+```
+
+### Average Order Value
+
+```DAX
+AOV =
+DIVIDE([Revenue], COUNTROWS(Orders))
+```
+
+### Cancellation Rate
+
+```DAX
+Cancellation Rate =
+DIVIDE(
+    CALCULATE(
+        COUNTROWS(Orders),
+        Orders[Delivery Status] = "Cancelled"
+    ),
+    COUNTROWS(Orders)
+)
+```
+
+### Lost Revenue
+
+```DAX
+Lost Revenue =
+CALCULATE(
+    [Revenue],
+    Orders[Delivery Status] = "Cancelled"
+)
+```
+
+### Total Orders
+
+```DAX
+Total Orders =
+COUNTROWS(Orders)
+```
 
 ---
 
 # 📈 Business Insights
 
-- Laptop category generated the highest revenue.
-- Maharashtra generated the highest revenue.
-- MacBook Air is the highest revenue-generating product.
-- Cancellation Rate is **29.72%**.
-- Lost Revenue exceeded **₹525 Million**.
-- Revenue peaked around **July 2024**.
+- 💻 Laptop category generated the highest revenue.
+- 📱 Mobile category ranked second.
+- 💰 MacBook Air generated the highest revenue among products.
+- 🌍 Maharashtra recorded the highest revenue.
+- 📉 Cancellation Rate reached **29.72%**.
+- 💸 Lost Revenue exceeded **₹525 Million**.
+- 📊 Revenue peaked around **July 2024**.
 
 ---
 
@@ -122,34 +221,56 @@ The project contains three datasets.
 - Power Query
 - DAX
 - Data Modeling
-- CSV
-- Business Intelligence
+- CSV Dataset
+- Microsoft Excel
 
 ---
 
 # 💡 Skills Demonstrated
 
 - Data Cleaning
-- Data Modeling
+- Data Transformation
 - Power Query
 - DAX
-- KPI Design
+- Data Modeling
+- KPI Development
 - Dashboard Design
-- Data Visualization
 - Business Intelligence
+- Data Visualization
+- Analytical Thinking
 
 ---
 
 # 📁 Repository Structure
 
-```
-Dashboard/
-Dataset/
-Documentation/
-Images/
-Presentation/
-README.md
-LICENSE
+```text
+Ecom-Express-Sales-Dashboard-PowerBI/
+│
+├── Dashboard/
+│   └── Ecom_Express_Sales_Dashboard.pbix
+│
+├── Dataset/
+│   ├── Customers.csv
+│   ├── Orders.csv
+│   └── Products.csv
+│
+├── Images/
+│   ├── Dashboard.png
+│   ├── Dashboard_Main.png
+│   ├── Model_View.png
+│   ├── Customer_Table.png
+│   └── Logo.png
+│
+├── Documentation/
+│   ├── Project_Report.docx
+│   └── Data_Dictionary.docx
+│
+├── Presentation/
+│   └── Ecom_Express_Dashboard_Presentation.pptx
+│
+├── README.md
+├── LICENSE
+└── .gitignore
 ```
 
 ---
@@ -157,13 +278,18 @@ LICENSE
 # 🚀 How to Use
 
 1. Clone this repository.
-2. Open the `.pbix` file using Power BI Desktop.
-3. Refresh the datasets if required.
+
+```bash
+git clone https://github.com/YOUR_USERNAME/Ecom-Express-Sales-Dashboard-PowerBI.git
+```
+
+2. Open the `.pbix` file using **Power BI Desktop**.
+3. Refresh the data if required.
 4. Explore the interactive dashboard.
 
 ---
 
-# 📌 Future Enhancements
+# 🔮 Future Enhancements
 
 - Sales Forecasting
 - Customer Segmentation
@@ -171,6 +297,7 @@ LICENSE
 - Regional Heat Maps
 - Dynamic Tooltips
 - Drill-through Reports
+- Customer Lifetime Value Analysis
 
 ---
 
@@ -178,10 +305,40 @@ LICENSE
 
 **Hrishikesh Kshirsagar**
 
-- 🎓 B.E. in Artificial Intelligence & Data Science
-- 💼 Aspiring Data Analyst | Power BI Developer
-- 🛠 Skills: Power BI, SQL, Python, Machine Learning
+🎓 B.E. in Artificial Intelligence & Data Science
+
+### Skills
+
+- Power BI
+- SQL
+- Python
+- Data Analytics
+- Machine Learning
 
 ---
 
-⭐ If you found this project useful, consider giving it a **Star**.
+## ⭐ Support
+
+If you found this project helpful:
+
+⭐ Star this repository
+
+🍴 Fork the repository
+
+📢 Share it with others
+
+---
+
+## 📬 Contact
+
+Feel free to connect for discussions related to:
+
+- Power BI
+- SQL
+- Python
+- Data Analytics
+- Business Intelligence
+
+**LinkedIn:** *(Add your LinkedIn profile link here)*
+
+**GitHub:** *(Add your GitHub profile link here)*
