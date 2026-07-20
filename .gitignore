@@ -1,0 +1,4 @@
+*.pbix.backup
+*.tmp
+Thumbs.db
+Desktop.ini
